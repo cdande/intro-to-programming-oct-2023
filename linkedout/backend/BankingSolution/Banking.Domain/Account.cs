@@ -11,12 +11,14 @@ public class Account
     public decimal GetBalance()
     {
         return _balance;
-        //return 5000; "Slimed"
     }
 
     public void Withdraw(decimal amountToWithdraw)
     {
+        if (amountToWithdraw > _balance)
+        {
+            return;
+        }
         _balance -= amountToWithdraw;
     }
-
 }
