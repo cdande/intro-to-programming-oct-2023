@@ -1,4 +1,4 @@
-using DemoApi;
+using DemoApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +6,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// What is this doing? Inversion of Control and Dependency Injection - Loose Coupling.
+builder.Services.AddScoped<TemperatureConverterService>();
+builder.Services.AddScoped<ICalculateFees, StandardFeeCalculator>();
+builder.Services.AddScoped<ISystemTime, SystemTime>();
 
 var app = builder.Build();
 
@@ -16,16 +21,31 @@ if (app.Environment.IsDevelopment())
 	app.UseSwaggerUI();
 }
 
-app.MapGet("/temperatures/farenheit/{temp:float}/celcius", (float temp) =>
+app.MapGet("/temperatures/farenheit/{temp:float}/celcius", (float temp, TemperatureConverterService service) =>
 {
-	var result = TemperatureConverter.ConvertFromF(temp);
-	return new ConversionResponse(temp, result);
+
+	return service.ConvertFtoC(temp);
 });
 
-app.MapGet("/temperatures/celcius/{temp:float}/farenheit", (float temp) =>
+app.MapGet("/temperatures/celcius/{temp:float}/farenheit", (float temp, TemperatureConverterService service) =>
 {
-	var result = TemperatureConverter.ConvertFromC(temp);
-	return new ConversionResponse(result, temp);
+	return service.ConvertCtoF(temp);
+});
+
+app.MapGet("/states", () =>
+{
+	var states = new Dictionary<string, string>()
+	{
+		{ "OH", "Ohio" },
+		{ "KY", "Kentucky" }
+	};
+
+	return Results.Ok(states);
+});
+
+app.MapGet("/employees/{id}", (string id) =>
+{
+	return Results.Ok(new { name = "Bob Smith", status = "fulltime" });
 });
 
 app.Run(); // "Blocking Call"
