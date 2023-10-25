@@ -1,8 +1,7 @@
-﻿namespace DemoAPi.Services;
+﻿namespace DemoApi.Services;
 
 public class TemperatureConverterService
 {
-
 	private readonly ICalculateFees _feeCalculator;
 
 	public TemperatureConverterService(ICalculateFees feeCalculator)
@@ -12,14 +11,14 @@ public class TemperatureConverterService
 
 	public ConversionWithFeeResponse ConvertFtoC(float temp)
 	{
-		//Write the code you wish you had
-		//I am saying WHAT I need.
-		decimal fee = _feeCalculator.getCurrentFee();
-
+		// Write the code you wish you had.
+		// I am saying WHAT I need, not WHO I need.
+		decimal fee = _feeCalculator.GetCurrentFee();
 
 		var convertedTemp = TemperatureConverter.ConvertFromF(temp);
 		return new ConversionWithFeeResponse(temp, convertedTemp, fee);
 	}
 }
+
 
 public record ConversionWithFeeResponse(float F, float C, decimal Fee);

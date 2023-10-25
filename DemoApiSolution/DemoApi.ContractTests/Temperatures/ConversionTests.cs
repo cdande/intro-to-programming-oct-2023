@@ -1,23 +1,20 @@
-﻿using Alba;
+﻿
 
+using Alba;
 
 
 namespace DemoApi.ContractTests.Temperatures;
 public class ConversionTests
 {
 
-
-
 	[Fact]
 	public async Task CanConvertFromFToC()
 	{
 
-		//Given 
-		var expectedResonpse = new ConversionResponse(212, 100);
+		// Given
+		var expectedReponse = new ConversionResponse(212, 100);
 
 		var host = await AlbaHost.For<Program>();
-
-
 
 		var response = await host.Scenario(api =>
 		{
@@ -29,19 +26,18 @@ public class ConversionTests
 
 		Assert.NotNull(message);
 
-		Assert.Equal(expectedResonpse, message);
-	}
+		Assert.Equal(expectedReponse, message);
 
+
+	}
 	[Fact]
-	public async Task CanConvertFromCtoF()
+	public async Task CanConvertFromCToF()
 	{
 
-		//Given 
-		var expectedResonpse = new ConversionResponse(100, 212);
+		// Given
+		var expectedReponse = new ConversionResponse(212, 100);
 
 		var host = await AlbaHost.For<Program>();
-
-
 
 		var response = await host.Scenario(api =>
 		{
@@ -53,6 +49,8 @@ public class ConversionTests
 
 		Assert.NotNull(message);
 
-		Assert.Equal(expectedResonpse, message);
+		Assert.Equal(expectedReponse, message);
+
+
 	}
 }

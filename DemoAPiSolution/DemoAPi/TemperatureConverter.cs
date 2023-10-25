@@ -1,4 +1,4 @@
-﻿namespace DemoAPi;
+﻿namespace DemoApi;
 
 public class TemperatureConverter
 {

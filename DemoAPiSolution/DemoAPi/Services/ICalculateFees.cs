@@ -1,6 +1,6 @@
-﻿namespace DemoAPi.Services;
+﻿namespace DemoApi.Services;
 
 public interface ICalculateFees
 {
-	decimal getCurrentFee();
+	decimal GetCurrentFee();
 }

@@ -1,5 +1,4 @@
-﻿using DemoAPi;
-
+﻿
 namespace DemoApi.UnitTests;
 public class ConvertingTemperatures
 {
@@ -9,18 +8,17 @@ public class ConvertingTemperatures
 	public void CanConvertFromFtoC(float temp, float expected)
 	{
 
-
 		float result = TemperatureConverter.ConvertFromF(temp);
 
 		Assert.Equal(expected, result);
 	}
+
 
 	[Theory]
 	[InlineData(100, 212)]
 	[InlineData(0, 32)]
 	public void CanConvertFromCtoF(float temp, float expected)
 	{
-
 
 		float result = TemperatureConverter.ConvertFromC(temp);
 

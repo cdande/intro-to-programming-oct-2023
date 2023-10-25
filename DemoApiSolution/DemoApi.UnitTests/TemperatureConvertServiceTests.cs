@@ -1,17 +1,18 @@
-﻿using DemoAPi.Services;
+﻿
+
+
+using DemoApi.Services;
 
 namespace DemoApi.UnitTests;
 public class TemperatureConvertServiceTests
 {
-
-
 
 	[Fact]
 	public void UsesTheFeeCalculator()
 	{
 		// Given
 		var fakeFeeCalculator = Substitute.For<ICalculateFees>();
-		fakeFeeCalculator.getCurrentFee().Returns(42.23M);
+		fakeFeeCalculator.GetCurrentFee().Returns(42.23M);
 		var service = new TemperatureConverterService(fakeFeeCalculator);
 
 		// When
@@ -22,28 +23,13 @@ public class TemperatureConvertServiceTests
 	}
 
 
-
-	//[Fact]
-	//public void FeeOnOtherDays()
-	//{
-	//	var service = new TemperatureConverterService(new StubbedFeeThing());
-
-
-
-	//	ConversionWithFeeResponse response = service.ConvertFtoC(100F);
-
-
-
-	//	Assert.Equal(.03M, response.Fee);
-	//}
 }
 
 
-
-// Test Double
+// Test Double.
 public class StubbedFeeThing : ICalculateFees
 {
-	public decimal getCurrentFee()
+	public decimal GetCurrentFee()
 	{
 		return 42.23M;
 	}
