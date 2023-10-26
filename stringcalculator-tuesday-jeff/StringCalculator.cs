@@ -4,10 +4,12 @@ namespace StringCalculator;
 public class StringCalculator
 {
 	private readonly ILogger _logger;
+	private readonly IWebService _service;
 
-	public StringCalculator(ILogger logger)
+	public StringCalculator(ILogger logger, IWebService service)
 	{
 		_logger = logger;
+		_service = service;
 	}
 
 	public int Add(string numbers)
@@ -22,7 +24,16 @@ public class StringCalculator
 			.Select(int.Parse) // => [1,2,3,4,6]
 			.Sum(); // Language Integrated Query
 
-		_logger.Write(result.ToString());
+		try
+		{
+			_logger.Write(numbers);
+		}
+		catch (LoggingException)
+		{
+
+			_service.NofityOfLoggingFailure();
+
+		}
 		return result;
 
 	}
@@ -39,7 +50,14 @@ public class StringCalculator
 
 }
 
+public interface IWebService
+{
+	void NofityOfLoggingFailure();
+}
+
 public interface ILogger
 {
 	void Write(string message);
 }
+
+public class LoggingException : ApplicationException { };

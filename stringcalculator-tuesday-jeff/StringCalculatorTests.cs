@@ -3,7 +3,7 @@ namespace StringCalculator;
 
 public class StringCalculatorTests
 {
-	private readonly StringCalculator _calculator = new StringCalculator(Substitute.For<ILogger>());
+	private readonly StringCalculator _calculator = new StringCalculator(Substitute.For<ILogger>(), Substitute.For<IWebService>());
 	[Fact]
 	public void EmptyStringReturnsZero()
 	{
@@ -58,7 +58,7 @@ public class StringCalculatorTests
 		Assert.Equal(103, result);
 	}
 
-	[Fact(Skip = "Waiting on...")]
+	[Fact(Skip = "Waiting on..")]
 	public void SingleDigitOnly()
 	{
 		var result = _calculator.Add("108", true);
