@@ -1,7 +1,9 @@
 ﻿
 
 using Alba;
-
+using DemoApi.Services;
+using Microsoft.Extensions.DependencyInjection;
+using NSubstitute;
 
 namespace DemoApi.ContractTests.Temperatures;
 public class ConversionTests
@@ -35,9 +37,17 @@ public class ConversionTests
 	{
 
 		// Given
-		var expectedReponse = new ConversionResponse(212, 100);
+		var expectedReponse = new ConversionWithFeeResponse(212, 100, 0);
 
-		var host = await AlbaHost.For<Program>();
+		var host = await AlbaHost.For<Program>(config =>
+		{
+			config.ConfigureServices(sp =>
+			{
+				var fakeFeeThing = Substitute.For<ICalculateFees>();
+
+				sp.AddScoped<ICalculateFees>(s => fakeFeeThing);
+			});
+		});
 
 		var response = await host.Scenario(api =>
 		{
@@ -45,7 +55,7 @@ public class ConversionTests
 			api.StatusCodeShouldBeOk();
 		});
 
-		var message = response.ReadAsJson<ConversionResponse>();
+		var message = response.ReadAsJson<ConversionWithFeeResponse>();
 
 		Assert.NotNull(message);
 
